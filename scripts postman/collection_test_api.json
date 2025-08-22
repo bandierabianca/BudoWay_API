@@ -1,0 +1,250 @@
+{
+  "info": {
+    "name": "Budoway API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "budoway-api-collection"
+  },
+  "item": [
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "List Events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/events"
+          }
+        },
+        {
+          "name": "Get Event",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/events/:item_id"
+          }
+        },
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"location\": \"Test location\",\n  \"date_event\": \"2025-08-22T18:00:00Z\",\n  \"description\": \"Test description\",\n  \"validated_by_admin\": false,\n  \"validated_by_admin_id\": null,\n  \"validated_by_community\": false,\n  \"validated_by_AI\": false\n}"
+            },
+            "url": "{{base_url}}/events"
+          }
+        },
+        {
+          "name": "Update Event",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Updated description\"\n}"
+            },
+            "url": "{{base_url}}/events/:item_id"
+          }
+        },
+        {
+          "name": "Delete Event",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+            ],
+            "url": "{{base_url}}/events/:item_id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sports",
+      "item": [
+        {
+          "name": "List Sports",
+          "request": { "method": "GET", "header": [], "url": "{{base_url}}/sports" }
+        },
+        {
+          "name": "Get Sport",
+          "request": { "method": "GET", "header": [], "url": "{{base_url}}/sports/:item_id" }
+        },
+        {
+          "name": "Create Sport",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Karate\"\n}" },
+            "url": "{{base_url}}/sports"
+          }
+        },
+        {
+          "name": "Update Sport",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Updated Sport\"\n}" },
+            "url": "{{base_url}}/sports/:item_id"
+          }
+        },
+        {
+          "name": "Delete Sport",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }],
+            "url": "{{base_url}}/sports/:item_id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trainers",
+      "item": [
+        {
+          "name": "List Trainers",
+          "request": { "method": "GET", "header": [], "url": "{{base_url}}/trainers" }
+        },
+        {
+          "name": "Get Trainer",
+          "request": { "method": "GET", "header": [], "url": "{{base_url}}/trainers/:item_id" }
+        },
+        {
+          "name": "Create Trainer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"John Doe\"\n}" },
+            "url": "{{base_url}}/trainers"
+          }
+        },
+        {
+          "name": "Update Trainer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Updated Name\"\n}" },
+            "url": "{{base_url}}/trainers/:item_id"
+          }
+        },
+        {
+          "name": "Delete Trainer",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }],
+            "url": "{{base_url}}/trainers/:item_id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Associations",
+      "item": [
+        {
+          "name": "List Associations",
+          "request": { "method": "GET", "header": [], "url": "{{base_url}}/associations" }
+        },
+        {
+          "name": "Get Association",
+          "request": { "method": "GET", "header": [], "url": "{{base_url}}/associations/:item_id" }
+        },
+        {
+          "name": "Create Association",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Dojo XYZ\"\n}" },
+            "url": "{{base_url}}/associations"
+          }
+        },
+        {
+          "name": "Update Association",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Updated Association\"\n}" },
+            "url": "{{base_url}}/associations/:item_id"
+          }
+        },
+        {
+          "name": "Delete Association",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }],
+            "url": "{{base_url}}/associations/:item_id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "AssociationTrainer",
+      "item": [
+        {
+          "name": "List AssociationTrainer",
+          "request": { "method": "GET", "header": [], "url": "{{base_url}}/association_trainer" }
+        },
+        {
+          "name": "Get AssociationTrainer",
+          "request": { "method": "GET", "header": [], "url": "{{base_url}}/association_trainer/:item_id" }
+        },
+        {
+          "name": "Create AssociationTrainer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"association_id\": 1,\n  \"trainer_id\": 1\n}" },
+            "url": "{{base_url}}/association_trainer"
+          }
+        },
+        {
+          "name": "Update AssociationTrainer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"trainer_id\": 2\n}" },
+            "url": "{{base_url}}/association_trainer/:item_id"
+          }
+        },
+        {
+          "name": "Delete AssociationTrainer",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }],
+            "url": "{{base_url}}/association_trainer/:item_id"
+          }
+        }
+      ]
+    }
+  ]
+}
