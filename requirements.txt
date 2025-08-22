@@ -6,3 +6,4 @@ python-jose[cryptography]
 passlib[bcrypt]
 alembic
 pyyaml
+PyJWT
