@@ -17,8 +17,18 @@ from .routers import federations
 from .routers import association_federation
 from .routers import federation_sport
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI(title='BudoWay API - Full features')
 models.SQLModel.metadata.create_all(engine)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # puoi mettere l'URL della tua app
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(auth.router)
 app.include_router(events.router)

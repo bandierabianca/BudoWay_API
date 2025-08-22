@@ -1,12 +1,18 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
-
 from ..database import get_session
 from ..models import AuthUser, Users
 from ..schemas import UserRegister, Token
-from ..auth_utils import create_access_token, hash_password, verify_password
+from ..auth_utils import (
+    create_access_token,
+    create_refresh_token,
+    decode_refresh_token,
+    hash_password,
+    verify_password,
+)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+
 
 @router.post("/register", response_model=Token)
 def register(payload: UserRegister, session: Session = Depends(get_session)):
@@ -21,21 +27,24 @@ def register(payload: UserRegister, session: Session = Depends(get_session)):
         session.commit()
         session.refresh(user)
 
-    # Verifica se esiste già un record auth_users
+    # Verifica se esiste già
     existing_auth = session.exec(select(AuthUser).where(AuthUser.user_id == user.id)).first()
     if existing_auth:
         raise HTTPException(status_code=400, detail="User already registered for authentication")
 
-    # Crea record auth con password hashata
+    # Crea record auth
     hashed_pw = hash_password(payload.password)
     auth_record = AuthUser(user_id=user.id, hashed_password=hashed_pw)
     session.add(auth_record)
     session.commit()
     session.refresh(auth_record)
 
-    # Token
-    token = create_access_token({"sub": str(auth_record.user_id)})
-    return {"access_token": token, "token_type": "bearer"}
+    # Genera token
+    access_token = create_access_token({"sub": str(auth_record.user_id)})
+    refresh_token = create_refresh_token({"sub": str(auth_record.user_id)})
+
+    return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
+
 
 @router.post("/token", response_model=Token)
 def login(payload: UserRegister, session: Session = Depends(get_session)):
@@ -55,6 +64,21 @@ def login(payload: UserRegister, session: Session = Depends(get_session)):
     if not verify_password(payload.password, auth_record.hashed_password):
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
-    # Token
-    token = create_access_token({"sub": str(auth_record.user_id)})
-    return {"access_token": token, "token_type": "bearer"}
+    # Genera token
+    access_token = create_access_token({"sub": str(auth_record.user_id)})
+    refresh_token = create_refresh_token({"sub": str(auth_record.user_id)})
+
+    return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
+
+
+@router.post("/refresh")
+def refresh_token(refresh_token: str):
+    try:
+        payload = decode_refresh_token(refresh_token)
+        user_id = int(payload["sub"])
+    except Exception:
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
+
+    # Genera nuovo access token
+    new_access_token = create_access_token({"sub": str(user_id)})
+    return {"access_token": new_access_token, "token_type": "bearer"}
