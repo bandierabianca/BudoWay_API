@@ -458,3 +458,9 @@ class UserRegister(SQLModel):
 class Token(SQLModel):
     access_token: str
     token_type: str = 'bearer'
+
+
+class RevokedToken(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    jti: str  # identificativo univoco del token
+    revoked_at: datetime.datetime = Field(default_factory=datetime.datetime.utcnow)
