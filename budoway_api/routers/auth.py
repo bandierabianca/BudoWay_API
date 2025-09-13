@@ -11,6 +11,10 @@ from ..auth_utils import (
     verify_password,
 )
 
+from jose import JWTError, jwt
+from ..auth_utils import SECRET_KEY, ALGORITHM, oauth2_scheme
+from ..models import RevokedToken
+
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
@@ -82,3 +86,24 @@ def refresh_token(refresh_token: str):
     # Genera nuovo access token
     new_access_token = create_access_token({"sub": str(user_id)})
     return {"access_token": new_access_token, "token_type": "bearer"}
+
+
+@router.post("/logout")
+def logout(
+    token: str = Depends(oauth2_scheme),
+    session: Session = Depends(get_session)
+):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        jti = payload.get("jti")
+        if not jti:
+            raise HTTPException(status_code=400, detail="Token does not contain jti")
+
+        # Inserisci in blacklist
+        revoked = RevokedToken(jti=jti)
+        session.add(revoked)
+        session.commit()
+
+        return {"detail": "Successfully logged out"}
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid token")
