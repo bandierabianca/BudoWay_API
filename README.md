@@ -55,3 +55,4 @@ alembic upgrade head
 ```
 python export_openapi.py
 ```
+9. Adesso Dario ha i permessi ma comunque non ha MAC
