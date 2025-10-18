@@ -55,3 +55,7 @@ alembic upgrade head
 ```
 python export_openapi.py
 ```
+
+9. Capire che dario non ha accesso diretto al branch dario
+
+10. Sapere che dario ha window e non mac (comunque meglio linux)
