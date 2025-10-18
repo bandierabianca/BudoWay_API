@@ -55,3 +55,5 @@ alembic upgrade head
 ```
 python export_openapi.py
 ```
+
+9. Dario non ha MAC
